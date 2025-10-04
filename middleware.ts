@@ -2,6 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { Public } from '@prisma/client/runtime/library'
 
 const isPublicRoute = createRouteMatcher([
+    '/',
     '/sign-in(.*)', 
     '/sign-up(.*)',
     '/api/webhooks/clerk(.*)',
