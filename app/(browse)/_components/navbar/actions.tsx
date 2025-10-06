@@ -9,7 +9,7 @@ import Link from "next/link";
 export const Actions = async () => {
     const user = await currentUser();
     return (
-        <div className="flec items-center justify-end gap-x-2 ml-4 lg:ml-0">
+        <div className="flex items-center justify-end gap-x-2 ml-4 lg:ml-0">
             {!user && (
                 <SignInButton>
                     
