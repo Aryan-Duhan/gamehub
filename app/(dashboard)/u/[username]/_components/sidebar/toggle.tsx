@@ -4,7 +4,6 @@ import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import { useCreatorSidebar } from "@/store/use-creator-sidebar";
 import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
-import { use } from "react";
 
 export const Toggle = () => {
 
@@ -32,7 +31,7 @@ export const Toggle = () => {
                         </Button>
                     </Hint>
                 </div>
-            )};
+            )}
             {!collapsed && (
                 <div className="p-3 pl-6 mb-2 hidden lg:flex items-center w-full">
                     <p className="font-semibold text-primary" >
