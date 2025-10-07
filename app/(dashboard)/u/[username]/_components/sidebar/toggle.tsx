@@ -34,8 +34,6 @@ export const Toggle = () => {
                     </Hint>
                 </div>
             )};
-
-
             {!collapsed && (
                 <div className="p-3 pl-6 mb-2 hidden lg:flex items-center w-full">
                     <p className="font-semibold text-primary">
@@ -48,12 +46,12 @@ export const Toggle = () => {
                             className="h-auto p-2 ml-auto"
                         >
                             <div className="cursor-pointer">
-                            <ArrowLeftFromLine className="h-4 w-4"/>
+                                <ArrowLeftFromLine className="h-4 w-4"/>
                             </div>
                         </Button>
                     </Hint>
                 </div>
             )}
         </>
-    );
+    )
 };
