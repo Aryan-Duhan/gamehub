@@ -30,13 +30,12 @@ export const Toggle = () => {
                                 <ArrowRightFromLine className="h-4 w-4" />
                             </div>
                         </Button>
-
                     </Hint>
                 </div>
             )};
             {!collapsed && (
                 <div className="p-3 pl-6 mb-2 hidden lg:flex items-center w-full">
-                    <p className="font-semibold text-primary">
+                    <p className="font-semibold text-primary" >
                         Dashboard
                     </p>
                     <Hint label={label} side="right" asChild>
