@@ -34,13 +34,16 @@ export const KeyCard = ({
                             value={value || ""}
                           />
                     </div>
-                    <Button 
+                    <div>
+                        <Button 
                         size = "sm"
                         variant = "link"
                         onClick={() => setShow(!show)}
                     >
                         {show ? "Hide" : "Show"}
                     </Button>
+                    </div>
+                    
                 </div>
             </div>
         </div>
