@@ -21,6 +21,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "jwt-decode": "^4.0.0",
     "livekit-client": "^1.15.4",
     "livekit-server-sdk": "^1.2.7",
     "lucide-react": "^0.544.0",
@@ -33,6 +34,7 @@
     "svix": "^1.76.1",
     "tailwind-merge": "^3.3.1",
     "usehooks-ts": "^3.1.1",
+    "uuid": "^13.0.0",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
@@ -41,6 +43,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
