@@ -5,15 +5,16 @@ import { Actions } from "./_components/action";
 import { isBlockedByUser } from "@/lib/block-service";
 
 interface UserPageProps {
-    params : {
+    params : Promise<{
         username : string ;
-    };
+    }>;
 };
 
 const userPage = async ({
     params
 }: UserPageProps) => {
-    const user = await getUserByUsername(params.username);
+    const { username } = await params;
+    const user = await getUserByUsername(username);
 
     if (!user){
         notFound();
