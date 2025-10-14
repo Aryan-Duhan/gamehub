@@ -1,20 +1,24 @@
 import { create } from "zustand";
 
-export type ChatVariant = "chat" | "community";
+export enum ChatVariant {
+    CHAT = "CHAT",
+    COMMUNITY = "COMMUNITY",
+};
 
 interface ChatSidebarStore {
     collapsed: boolean;
-    variant: ChatVariant;
+    variant : ChatVariant;
     onExpand: () => void;
     onCollapse: () => void;
-    onChangeVariant: (variant: ChatVariant) => void;
+    onChangeVariant : (variant : ChatVariant) => void;
 }
 
 export const useChatSidebar = create<ChatSidebarStore>((set) => ({
     collapsed: false,
-    variant: "chat",
+    variant : ChatVariant.CHAT,
     onExpand: () => set(() => ({ collapsed: false })),
     onCollapse: () => set(() => ({ collapsed: true })),
-    onChangeVariant: (variant: ChatVariant) => set(() => ({ variant })),
+    onChangeVariant : (variant : ChatVariant) => set(() => ({ variant }))
+    
 }));
 
