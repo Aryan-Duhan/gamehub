@@ -30,7 +30,14 @@ export const StreamPlayer = ({
     } = useViewerToken(user.id);
     const { collapsed } = useChatSidebar((state) => state);
 
+    console.log("StreamPlayer - Token:", token);
+    console.log("StreamPlayer - Name:", name);
+    console.log("StreamPlayer - Identity:", identity);
+    console.log("StreamPlayer - User:", user);
+    console.log("StreamPlayer - Stream:", stream);
+
     if (!token || !name || !identity){
+        console.log("StreamPlayer - Showing skeleton because token/name/identity missing");
         return(
             <StreamPlayerSkeleton />
         )

@@ -1,15 +1,22 @@
 import { db } from "@/lib/db"
 
 export const getUserByUsername = async (username:string) => {
-    const user = db.user.findUnique({
-        where : {
-            username,
-        },
-        include : {
-            stream : true,
-        }
-    });
-    return user ;
+    console.log("getUserByUsername called with:", username);
+    try {
+        const user = await db.user.findUnique({
+            where : {
+                username,
+            },
+            include : {
+                stream : true,
+            }
+        });
+        console.log("Database query result:", user);
+        return user ;
+    } catch (error) {
+        console.error("Database error in getUserByUsername:", error);
+        throw error;
+    }
 }
 
 export const getUserById = async (id:string) => {
