@@ -41,7 +41,6 @@ export const InfoCard = ({
                     </div>
                     <InfoModal
                         initialName={name}
-                        initialThumbnailUrl={thumbnailUrl}
                     />
                 </div>
                 <Separator />
@@ -53,21 +52,6 @@ export const InfoCard = ({
                         <p className="text-sm font-semibold">
                             {name}
                         </p>
-                    </div>
-                    <div>
-                        <h3 className="text-sm text-muted-foreground mb-2">
-                            Thumbnail
-                        </h3>
-                        {thumbnailUrl && (
-                            <div className="relative aspect-video rounded-md overflow-hidden w-[200px] border border-white/10">
-                                <Image
-                                    fill
-                                    src={thumbnailUrl}
-                                    alt={name}
-                                />
-                            </div>
-
-                        )}
                     </div>
                 </div>
             </div>

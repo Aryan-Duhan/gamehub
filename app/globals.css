@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@import "uploadthing/tw/v4";
+@import "@uploadthing/react/styles.css";
+
+@source "../node_modules/@uploadthing/react/dist";
+@source "../app/**/*.{js,ts,jsx,tsx}";
+@source "../components/**/*.{js,ts,jsx,tsx}";
 
 html, body,
 #root {
@@ -81,4 +87,13 @@ html, body,
 #root {
   background-color: var(--color-background);
   color: var(--color-foreground);
+}
+
+/* Ensure dialog is centered */
+[data-slot="dialog-content"] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 50 !important;
 }

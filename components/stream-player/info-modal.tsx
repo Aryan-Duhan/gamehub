@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState , useTransition , useRef , ElementRef } from "react";
 import {
     Dialog,
     DialogContent,
@@ -9,21 +9,45 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label"; 
 import { Input } from "@/components/ui/input";
+import { updateStream } from "@/actions/stream";
+import { toast } from "sonner";
 
 interface InfoModalProps {
     initialName: string;
-    initialThumbnailUrl: string | null;
 };
 
 export const InfoModal = ({
     initialName,
-    initialThumbnailUrl,
 } : InfoModalProps) => {
 
+    const router = useRouter();
+    const closeRef = useRef<ElementRef<"button">>(null);
+    const [isPending, startTransition] = useTransition();
     const [name, setName] = useState(initialName);
+
+    const onSubmit = (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        startTransition(() => {
+            updateStream({
+                name: name
+            })
+                .then(() => {
+                    toast.success("Stream info updated");
+                    closeRef?.current?.click();
+                })
+                .catch(() => toast.error("Something went wrong"))
+        });
+    };
+
+    const onChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value);
+    };
+
 
     return(
         <Dialog>
@@ -32,32 +56,32 @@ export const InfoModal = ({
                     Edit
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-md">
                 <DialogHeader>
                     <DialogTitle>
                         Edit stream info
                     </DialogTitle>
                 </DialogHeader>
-                <form className="space-y-14">
+                <form onSubmit={onSubmit} className="space-y-6">
                     <div className="space-y-2">
                         <Label>
                             Name
                         </Label>
                         <Input
+                            disabled={isPending}
                             placeholder="Stream name"
-                            onChange={() => {}}
+                            onChange={onChange}
                             value={name}
-                            disabled={false}
                         />
                     </div>
-                    <div className="flex justify-between">
-                        <DialogClose asChild>
-                            <Button type="button" variant="ghost">
+                    <div className="flex justify-end gap-3 pt-4">
+                        <DialogClose ref={closeRef} asChild>
+                            <Button type="button" variant="outline">
                                 Cancel
                             </Button>
                         </DialogClose>
-                        <Button disabled={false} variant="primary" type="submit">
-                            Save
+                        <Button disabled={isPending} variant="default" type="submit">
+                            {isPending ? "Saving..." : "Save"}
                         </Button>
                     </div>
                 </form>
