@@ -49,6 +49,7 @@ export const CommunityItem = ({
             {isHost && !isSelf && (
                 <Hint label="Block">
                     <Button 
+                        asChild
                         variant="ghost"
                         disabled={isPending}
                         onClick= {handleBlock}
@@ -56,7 +57,7 @@ export const CommunityItem = ({
                         <MinusCircle className="h-4 w-4 text-muted-foreground" />
                     </Button>
                 </Hint>
-            )}
+             )}
         </div>
     );
 };

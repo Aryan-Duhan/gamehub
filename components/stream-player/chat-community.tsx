@@ -29,19 +29,17 @@ export const ChatCommunity = ({
         setValue(newValue);
     };
 
-    const filteredParticipants = useMemo(() => {
-        const deduped = participants.reduce((acc , participant) => {
-            const hostAsViewer = `host-${participant.identity}`;
-            if (acc.some((p) => p.identity === hostAsViewer)) {
-                acc.push(participant);
-            }
-            return acc;
-        } , [] as (RemoteParticipant | LocalParticipant)[]);
 
-        return deduped.filter((participant) => {
-            return participant.name?.toLowerCase().includes(debouncedValue.toLowerCase());
-        });
-    } , [participants , debouncedValue]);
+    const filteredParticipants = useMemo(() => {
+        const deduped = participants.filter(
+            (p, i, self) => i === self.findIndex((t) => t.identity === p.identity)
+        );
+
+        return deduped.filter((participant) =>
+            participant.name?.toLowerCase().includes(debouncedValue.toLowerCase())
+        );
+        }, [participants, debouncedValue]);
+
 
     if (isHidden){
         return (
@@ -53,7 +51,10 @@ export const ChatCommunity = ({
         );
     }
 
+
     return (
+        
+
         <div className="p-4">
             <Input 
                 onChange={(e) => onChange(e.target.value)}

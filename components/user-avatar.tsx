@@ -56,7 +56,7 @@ export const UserAvatar = ({
                 </AvatarFallback>
             </Avatar>
             {canShowBadge && (
-                <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2">
+                <div className="absolute -bottom-3 left-1/5 transform -translate-x-1/2">
                     <LiveBadge />
                 </div>
             )}
@@ -65,7 +65,10 @@ export const UserAvatar = ({
 };
 
 
-interface UserAvatarSkeletonProps extends VariantProps<typeof avatarSizes> {};
+// 🛠️ FIX APPLIED HERE:
+// Change the redundant 'interface' to a 'type' alias.
+// This resolves the ESLint error "@typescript-eslint/no-empty-object-type".
+type UserAvatarSkeletonProps = VariantProps<typeof avatarSizes>;
 
 export const UserAvatarSkeleton = ({
     size,
