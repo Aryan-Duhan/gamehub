@@ -1,57 +1,40 @@
 import { getSelf } from "@/lib/auth-service";
-import { createUploadthing, type FileRouter } from "uploadthing/server";
-import { UploadThingError } from "uploadthing/server";
+import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { db } from "@/lib/db";
 
 const f = createUploadthing();
 
 export const ourFileRouter = {
-    thumbnailUploader: f({ image: { maxFileSize: "4MB" , maxFileCount: 1 } })
-        .middleware(async() => {
-            try {
-                const self = await getSelf();
-                console.log("Middleware - user authenticated:", self.id);
-                return { user : self}
-            } catch (error) {
-                console.error("Middleware error:", error);
-                throw new UploadThingError("Authentication failed");
-            }
-        })
-        .onUploadComplete(async ({ metadata, file }) => {
-            try {
-                console.log("Upload complete - updating database:", {
-                    userId: metadata.user.id,
-                    fileUrl: file.url
-                });
-                
-                // First check if stream exists
-                const existingStream = await db.stream.findUnique({
-                    where: {
-                        userId: metadata.user.id
-                    }
-                });
+  thumbnailUploader: f({
+    image: { maxFileSize: "4MB", maxFileCount: 1 },
+  })
+    .middleware(async () => {
+      const self = await getSelf();
+      if (!self) throw new Error("Unauthorized");
 
-                if (!existingStream) {
-                    console.error("Stream not found for user:", metadata.user.id);
-                    throw new UploadThingError("Stream not found");
-                }
+      // Pass all we need to update DB later
+      return {
+        userId: self.id,
+        username: self.username,
+      };
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      try {
+        console.log("✅ Upload callback received for:", metadata.username);
 
-                const updatedStream = await db.stream.update({
-                    where : {
-                        userId : metadata.user.id
-                    },
-                    data : {
-                        thumbnailUrl : file.url
-                    },
-                });
-                
-                console.log("Database updated successfully:", updatedStream);
-                return { fileUrl : file.url };
-            } catch (error) {
-                console.error("Database update failed:", error);
-                throw new UploadThingError("Failed to update database");
-            }
-        })
+        await db.stream.update({
+          where: { userId: metadata.userId },
+          data: { thumbnailUrl: file.url },
+        });
+
+        console.log("🧩 Thumbnail URL updated successfully.");
+      } catch (error) {
+        console.error("❌ DB update failed:", error);
+      }
+
+      return { fileUrl: file.url };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
+

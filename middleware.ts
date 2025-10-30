@@ -1,25 +1,25 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-import { Public } from '@prisma/client/runtime/library'
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const isPublicRoute = createRouteMatcher([
-    '/',
-    '/sign-in(.*)', 
-    '/sign-up(.*)',
-    '/api/webhooks/clerk(.*)',
-    '/:username'
-])
+  "/",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/api/webhooks/clerk(.*)",
+  "/api/uploadthing(.*)", // ✅ fixed spelling and wildcard
+  "/:username",
+]);
 
 export default clerkMiddleware(async (auth, req) => {
- if (!isPublicRoute(req)) {
- await auth.protect()
- }
-})
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
+});
 
 export const config = {
- matcher: [
- // Skip Next.js internals and all static files, unless found in search params
- '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
- // Always run for API routes
- '/(api|trpc)(.*)',
- ],
-}
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
+};
